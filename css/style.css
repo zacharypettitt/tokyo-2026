@@ -712,3 +712,14 @@ p a:not(.btn):hover, li a:hover, .card__blurb a:hover, .card__verdict a:hover,
 @media (max-width: 640px) {
   .card--wide .card__media .photo { border-right: 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
 }
+
+/* Two photos side by side inside a wide card's media column (e.g. tower + view-from-top) */
+.card__media--split { display: flex; height: 100%; }
+.card__media--split .photo { width: 50%; height: 100%; border-radius: 0; box-shadow: none; }
+.card__media--split .photo:first-child { border-right: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+.card__media--split .photo:last-child { border-right: 0; }
+@media (max-width: 640px) {
+  .card__media--split { flex-direction: column; }
+  .card__media--split .photo { width: 100%; height: 220px; }
+  .card__media--split .photo:first-child { border-right: 0; border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }
+}

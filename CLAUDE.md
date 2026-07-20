@@ -39,6 +39,8 @@ then open `http://localhost:8000/index.html`.
 
 **Tap-to-zoom lightbox**: opt-in, not automatic — add a bare `data-zoom` attribute to any `<img class="photo">` and `main.js` wires it into a single lazily-created lightbox overlay (click/tap/Enter to open, click backdrop/close button/Escape to close, focus is trapped and restored). Currently only used on `disney.html`'s Shinjuku bus wayfinding photos.
 
-**Known gaps**: `map.html` is still a placeholder — it ships with an empty dashed embed slot waiting for a Google My Maps `<iframe>`. Every page's `<meta property="og:image">` points at `img/ui/og.png`, which doesn't exist yet.
+**Map (`map.html`)**: embeds a Google My Maps map (an `<iframe>` in the `.embed--map` slot) referenced by its `mid`. The embed pulls the map's live state, so pins added/edited in Google My Maps appear automatically with no code change — as long as it stays the same map (same `mid`) and its sharing stays "Anyone with link can view." A caption below links to the public `/maps/d/viewer?mid=…` version. See the `reference-tokyo-mymaps` memory for the specific map ID/URLs.
+
+**Known gaps**: every page's `<meta property="og:image">` points at `img/ui/og.png`, which doesn't exist yet. The `food.html` "Katsuya" card is the one remaining card still on a `.ph` placeholder (awaiting an actual katsu photo).
 
 **Image pipeline**: raw phone exports (often `.HEIC`) get dropped in a sibling folder, `../toyko-2026-site/img/<section>/` (note the typo in that folder name — it is *not* this repo, has no git). Convert to JPEG, apply EXIF-based orientation correction, resize to a 1600px-longest-side cap, and save at ~85% quality before placing the result in this repo's `img/<section>/` — that matches the existing site's ~150–500KB per-photo profile.

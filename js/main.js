@@ -85,6 +85,21 @@
     var lightboxImg = lightbox.querySelector(".lightbox__img");
     var lightboxClose = lightbox.querySelector(".lightbox__close");
     var lastFocused = null;
+    var lockedScrollY = 0;
+
+    // iOS Safari mispositions position:fixed overlays if the page is simply
+    // frozen with overflow:hidden while scrolled — pin the body in place at
+    // its current scroll offset instead, then restore it on close.
+    function lockScroll() {
+      lockedScrollY = window.scrollY || window.pageYOffset || 0;
+      document.body.style.top = "-" + lockedScrollY + "px";
+      document.documentElement.classList.add("lightbox-locked");
+    }
+    function unlockScroll() {
+      document.documentElement.classList.remove("lightbox-locked");
+      document.body.style.top = "";
+      window.scrollTo(0, lockedScrollY);
+    }
 
     function openLightbox(img) {
       lastFocused = document.activeElement;
@@ -92,13 +107,13 @@
       lightboxImg.alt = img.getAttribute("alt") || "";
       lightbox.classList.add("is-open");
       lightbox.setAttribute("aria-hidden", "false");
-      document.documentElement.classList.add("lightbox-locked");
+      lockScroll();
       lightboxClose.focus();
     }
     function closeLightbox() {
       lightbox.classList.remove("is-open");
       lightbox.setAttribute("aria-hidden", "true");
-      document.documentElement.classList.remove("lightbox-locked");
+      unlockScroll();
       lightboxImg.src = "";
       if (lastFocused && lastFocused.focus) lastFocused.focus();
     }

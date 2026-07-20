@@ -727,8 +727,15 @@ p a:not(.btn):hover, li a:hover, .card__blurb a:hover, .card__verdict a:hover,
 /* =========================================================================
    Tap-to-zoom lightbox — opt in with data-zoom on any .photo
    ========================================================================= */
-img[data-zoom] { cursor: zoom-in; }
+img[data-zoom] {
+  cursor: zoom-in;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none; user-select: none;
+  -webkit-user-drag: none;
+}
 html.lightbox-locked, html.lightbox-locked body { overflow: hidden; height: 100%; }
+html.lightbox-locked body { position: fixed; left: 0; right: 0; width: 100%; }
 .lightbox {
   position: fixed; inset: 0; z-index: 100000;
   background: rgba(17,19,25,0.94);

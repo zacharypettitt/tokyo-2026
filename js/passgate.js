@@ -41,7 +41,7 @@
   overlay.id = "pg-overlay";
   overlay.innerHTML =
     '<div class="pg-box">' +
-    '<p class="pg-title">Our Tokyo 2026</p>' +
+    '<p class="pg-title">Five Year Anniversary - Tokyo</p>' +
     '<p class="pg-sub">Enter the passcode to continue</p>' +
     '<form id="pg-form" autocomplete="off">' +
     '<input type="password" id="pg-input" placeholder="Passcode" autofocus />' +

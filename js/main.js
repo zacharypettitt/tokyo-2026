@@ -1,4 +1,4 @@
-/* Our Tokyo — interactions. No dependencies. */
+/* Five Year Anniversary - Tokyo — interactions. No dependencies. */
 (function () {
   "use strict";
 

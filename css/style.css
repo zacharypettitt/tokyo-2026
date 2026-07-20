@@ -162,13 +162,18 @@ img { max-width: 100%; display: block; }
     position: absolute; left: 0; right: 0; top: 100%;
     flex-direction: column; align-items: stretch; gap: 0;
     background: var(--washi); border-bottom: 1px solid var(--line);
-    box-shadow: var(--shadow); padding: 0.4rem 1.25rem 0.9rem;
+    box-shadow: var(--shadow); padding: 0.35rem 0 0.5rem;
     display: none;
   }
   .nav__links.is-open { display: flex; }
-  .nav__links a { padding: 0.75rem 0.5rem; font-size: 0.98rem; border-bottom: 1px solid var(--line); }
+  /* Full-width rows instead of content-width chips */
+  .nav__links a {
+    display: block; border-radius: 0;
+    padding: 0.9rem 1.5rem; font-size: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 55%, transparent);
+  }
   .nav__links li:last-child a { border-bottom: 0; }
-  .nav__links a[aria-current="page"]::after { left: 0.5rem; right: auto; width: 18px; bottom: 0.55rem; }
+  .nav__links a:hover { background: color-mix(in srgb, var(--accent) 7%, transparent); }
 }
 
 /* ---- Page header (vertical kanji + English title) ---------------------- */
@@ -626,7 +631,9 @@ p a:not(.btn):hover, li a:hover, .card__blurb a:hover, .card__verdict a:hover,
 }
 .nav__links a[aria-current="page"]::after { content: none; }
 @media (max-width: 720px) {
-  .nav__links a { border-radius: var(--radius-sm); }
+  /* Streamlined full-width menu rows; active page gets a left accent bar */
+  .nav__links a { border-radius: 0; }
+  .nav__links a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--accent); }
 }
 
 /* Cross-reference link cards (timeline "see also" rows) */

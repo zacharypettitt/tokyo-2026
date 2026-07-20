@@ -66,6 +66,65 @@
     });
   }
 
+  /* ---- Tap-to-zoom lightbox for flagged photos --------------------------- */
+  var zoomables = document.querySelectorAll("img[data-zoom]");
+  if (zoomables.length) {
+    var lightbox = document.createElement("div");
+    lightbox.className = "lightbox";
+    lightbox.setAttribute("role", "dialog");
+    lightbox.setAttribute("aria-modal", "true");
+    lightbox.setAttribute("aria-hidden", "true");
+    lightbox.innerHTML =
+      '<button class="lightbox__close" type="button" aria-label="Close zoomed photo">' +
+      '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>' +
+      "</button>" +
+      '<img class="lightbox__img" src="" alt="">' +
+      '<span class="lightbox__hint">Tap anywhere to close</span>';
+    document.body.appendChild(lightbox);
+
+    var lightboxImg = lightbox.querySelector(".lightbox__img");
+    var lightboxClose = lightbox.querySelector(".lightbox__close");
+    var lastFocused = null;
+
+    function openLightbox(img) {
+      lastFocused = document.activeElement;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.getAttribute("alt") || "";
+      lightbox.classList.add("is-open");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.documentElement.classList.add("lightbox-locked");
+      lightboxClose.focus();
+    }
+    function closeLightbox() {
+      lightbox.classList.remove("is-open");
+      lightbox.setAttribute("aria-hidden", "true");
+      document.documentElement.classList.remove("lightbox-locked");
+      lightboxImg.src = "";
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    zoomables.forEach(function (img) {
+      img.setAttribute("tabindex", "0");
+      img.setAttribute("role", "button");
+      img.setAttribute("aria-label", (img.getAttribute("alt") || "Photo") + " — tap to zoom in");
+      img.addEventListener("click", function () { openLightbox(img); });
+      img.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openLightbox(img);
+        }
+      });
+    });
+    lightbox.addEventListener("click", closeLightbox);
+    lightboxClose.addEventListener("click", function (e) {
+      e.stopPropagation();
+      closeLightbox();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+    });
+  }
+
   /* ---- Timeline <details>: open on desktop, closed on mobile ------------ */
   var timelineDetails = document.querySelectorAll("details[data-day]");
   if (timelineDetails.length) {
